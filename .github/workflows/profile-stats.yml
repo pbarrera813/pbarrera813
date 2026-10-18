@@ -1,0 +1,73 @@
+name: Update profile stats
+
+on:
+  schedule:
+    - cron: '17 9 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: profile-stats
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Check out profile
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Generate light activity card
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        with:
+          card: stats
+          options: username=pbarrera813&theme=light_github&hide_rank=true&hide=contribs&show_icons=false&disable_animations=true&card_width=360&line_height=29&custom_title=GitHub%20activity
+          path: profile/stats-light.svg
+          # Use the core already pinned in the action's lockfile.
+          core_version: ''
+          fail_on_error: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate dark activity card
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        with:
+          card: stats
+          options: username=pbarrera813&theme=dark_github&hide_rank=true&hide=contribs&show_icons=false&disable_animations=true&card_width=360&line_height=29&custom_title=GitHub%20activity
+          path: profile/stats-dark.svg
+          core_version: ''
+          fail_on_error: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate light language card
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        with:
+          card: top-langs
+          options: username=pbarrera813&theme=light_github&layout=compact&langs_count=8&disable_animations=true&card_width=360&custom_title=Public%20repository%20languages
+          path: profile/languages-light.svg
+          core_version: ''
+          fail_on_error: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate dark language card
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        with:
+          card: top-langs
+          options: username=pbarrera813&theme=dark_github&layout=compact&langs_count=8&disable_animations=true&card_width=360&custom_title=Public%20repository%20languages
+          path: profile/languages-dark.svg
+          core_version: ''
+          fail_on_error: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit updated cards
+        shell: bash
+        run: |
+          git add -- profile/stats-light.svg profile/stats-dark.svg profile/languages-light.svg profile/languages-dark.svg
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Update profile stats'
+          git push

@@ -1,3 +1,4 @@
+import importlib.util
 from pathlib import Path
 import shutil
 import subprocess
@@ -19,7 +20,34 @@ def run(*args, cwd, check=True):
     return result
 
 
+def check_totals():
+    spec = importlib.util.spec_from_file_location('maintained_stats', ROOT / 'scripts/maintained_stats.py')
+    stats = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(stats)
+
+    repos = {
+        f'users/{stats.USER}/repos?type=owner&per_page=100': [
+            {'full_name': 'me/own', 'fork': False},
+            {'full_name': 'me/forked', 'fork': True},
+        ],
+        'repos/me/own': {'stargazers_count': 2},
+        'repos/me/own/contributors?per_page=100': [
+            {'login': stats.USER, 'contributions': 5}, {'login': 'other', 'contributions': 9}],
+    }
+    for name in stats.WRITE_ACCESS:
+        repos[f'repos/{name}'] = {'stargazers_count': 10}
+        repos[f'repos/{name}/contributors?per_page=100'] = [
+            {'login': 'other', 'contributions': 50}, {'login': stats.USER, 'contributions': 3}]
+    expected = (2 + 10 * len(stats.WRITE_ACCESS), 5 + 3 * len(stats.WRITE_ACCESS))
+    assert stats.totals(repos.__getitem__) == expected, 'Forks, others or write-access repos miscounted'
+
+    for theme in stats.THEMES:
+        text = ' '.join(ET.fromstring(stats.render(1234, 56, theme)).itertext())
+        assert '1,234' in text and '56' in text, theme
+
+
 def check_profile():
+    check_totals()
     readme = (ROOT / 'README.md').read_text(encoding='utf-8')
     for card in (ROOT / 'profile').glob('*.svg'):
         assert f'./profile/{card.name}' in readme, card.name
@@ -28,7 +56,6 @@ def check_profile():
         assert 'Something went wrong' not in ' '.join(document.itertext()), card.name
 
     base = ROOT / f'.profile-stats-check-{uuid.uuid4().hex}'
-    # Inherit workspace permissions so Git can access fixtures in a Windows sandbox.
     base.mkdir()
     try:
         remote, checkout = base / 'remote.git', base / 'checkout'

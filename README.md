@@ -1,20 +1,21 @@
 # Hi, I’m Pablo Barrera
 
 Software engineer building self-hosted tools, community software, and games.
-Currently working mostly with Java, Dart/Flutter and Python!
+Currently working mostly with Python, C++, Java, Go and Dart/Flutter!
 
 **[Checkout my portfolio](https://pbarr.dev)**
 
 ## Technologies
 
 **Development**  
-![C++](https://img.shields.io/badge/C%2B%2B-0969DA?style=flat&logo=cplusplus&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-0969DA?style=flat&logo=python&logoColor=white)
+![C++](https://img.shields.io/badge/C%2B%2B-0969DA?style=flat&logo=cplusplus&logoColor=white)
 ![Go](https://img.shields.io/badge/Go-0969DA?style=flat&logo=go&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-0969DA?style=flat&logo=typescript&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-0969DA?style=flat)
 ![Dart](https://img.shields.io/badge/Dart-0969DA?style=flat&logo=dart&logoColor=white)
 ![Flutter](https://img.shields.io/badge/Flutter-0969DA?style=flat&logo=flutter&logoColor=white)
+![C](https://img.shields.io/badge/C-0969DA?style=flat&logo=c&logoColor=white)
 
 **Infrastructure**  
 ![Linux](https://img.shields.io/badge/Linux-0969DA?style=flat&logo=linux&logoColor=white)
@@ -22,17 +23,18 @@ Currently working mostly with Java, Dart/Flutter and Python!
 
 ## Current work
 
+### [Nitori](https://github.com/pbarrera813/Discord-bot)
+
+A Discord bot built with an AI connection, this is made in order for you to talk in plain language. Nitori calls moderation, football, image, reminder and server tools to get things done, and the code checks real Discord permissions before anything runs. I’m constantly reworking and extending it.
+
 ### <img src="./profile/svg-app.png" alt="" width="32" height="32" align="middle"> [Simple Voice App / Svg-App](https://github.com/TheodoreMeyer/Svg-App)
 
-**Active developer**
 
-I’m currently the sole developer of this Flutter Android app, which lets Bedrock players join voice and server chat. My work spans native audio, connectivity, and the application interface.
+I work on the constant development of the svg-app, made in Flutter, which lets Bedrock players join voice and server chat via their phone, without needing to use the server's webUI.
 
 ### [SimpleVoice-Geyser](https://github.com/TheodoreMeyer/SimpleVoice-Geyser)
 
-**Active contributor**
-
-I actively contribute to the plugin that brings Simple Voice Chat to Minecraft Bedrock players, with ongoing work across audio, connectivity, and compatibility.
+I actively contribute to the plugin, in order to bring a simple and easy way to use voice chat for bedrock players.
 
 ## GitHub activity
 
